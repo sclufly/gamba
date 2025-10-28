@@ -49,6 +49,8 @@ const Pack = () => {
             const cardsInRarity = cardsByRarity[selectedRarity] || [];
             const randomCard = cardsInRarity[Math.floor(Math.random() * cardsInRarity.length)];
             selectedCards.push(randomCard);
+
+            console.log(roll, selectedRarity);
         }
 
         // sort cards by rarity (common first, rarest last)
