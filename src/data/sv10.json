@@ -1,8 +1,9 @@
-[
-  {
-    "id": "sv10-1",
-    "name": "Ethan's Pinsir",
-    "supertype": "Pokémon",
+{
+  "cards": [
+    {
+      "id": "sv10-1",
+      "name": "Ethan's Pinsir",
+      "supertype": "Pokémon",
     "subtypes": [
       "Basic"
     ],
@@ -13263,4 +13264,5 @@
       "large": "https://images.pokemontcg.io/sv10/244_hires.png"
     }
   }
-]
+  ]
+}

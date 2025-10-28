@@ -3,41 +3,55 @@ import sets from '../data/sets';
 
 const Card = () => {
 
-    const [imageUrl, setImageUrl] = useState(null);
-    const [setName, setSetName] = useState(null);
-    const [cardNumber, setCardNumber] = useState(null);
+    const [setObject, setSetObject] = useState(null);
     const [maxCards, setMaxCards] = useState(null);
-    const [releaseDate, setReleaseDate] = useState(null);
+    const [cardNumber, setCardNumber] = useState(null);
+    const [cardObject, setCardObject] = useState(null);
     const [selectedSetId, setSelectedSetId] = useState('random');
+    const [imageUrl, setImageUrl] = useState(null);
 
     const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
     const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
 
+    const generateCardNumber = (max) => {
+
+        let cardNumber = 1;
+
+        // if a random set is selected, use a random card
+        if (selectedSetId === 'random') {
+            cardNumber = Math.floor(Math.random() * max) + 1;
+        } 
+        // otherwise, calculate card number based on rarity
+        else {
+            cardNumber = 4;
+        }
+
+        return cardNumber;
+    }
+
     const handleClick = async () => {
         // determine which set to use: either selected or random
-        let setItem;
-        if (selectedSetId && selectedSetId !== 'random') {
-            setItem = sets.data.find(s => s.id === selectedSetId);
-        }
-        if (!setItem) {
+        let set;
+        if (selectedSetId !== 'random') {
+            set = sets.data.find(s => s.id === selectedSetId);
+        } else {
             const randomIndex = Math.floor(Math.random() * sets.data.length);
-            setItem = sets.data[randomIndex];
+            set = sets.data[randomIndex];
         }
+        
 
-        const setId = setItem.id;
-        const max = Number(setItem.total) || Number(setItem.printedTotal) || 1;
-        const generatedCardNumber = Math.floor(Math.random() * max) + 1;
+        const max = Number(set.total) || Number(set.printedTotal) || 1;
+        const generatedCardNumber = generateCardNumber(max);
+        const url = `https://images.pokemontcg.io/${set.id}/${generatedCardNumber}_hires.png`;
+        
 
-        const url = `https://images.pokemontcg.io/${setId}/${generatedCardNumber}_hires.png`;
-
-        console.log('set id used:', setId);
+        console.log('set id used:', set.id);
         console.log(url);
 
-        setImageUrl(url);
-        setSetName(setItem.name);
-        setCardNumber(generatedCardNumber);
+        setSetObject(set);
         setMaxCards(max);
-        setReleaseDate(setItem.releaseDate);
+        setCardNumber(generatedCardNumber);
+        setImageUrl(url);
     }
 
     return (
@@ -48,7 +62,7 @@ const Card = () => {
                     <option value="random">Random</option>
                     {dropdownSets.map(s => (
                         <option key={s.id} value={s.id}>{s.name}</option>
-                    ))}
+                    ))} 
                 </select>
                 <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
             </div>
@@ -57,7 +71,7 @@ const Card = () => {
                     <img src={imageUrl} alt="set hires" style={{ width: 400, height: 'auto', display: 'block' }} />
                 </div>
             )}
-            {imageUrl && <p style={{ textAlign: 'center' }}>{setName} ({releaseDate}) — {cardNumber}/{maxCards}</p>}
+            {imageUrl && <p style={{ textAlign: 'center' }}>{setObject.name} ({setObject.releaseDate}) — {cardNumber}/{maxCards}</p>}
         </div>
     );
 };
