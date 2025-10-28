@@ -1,5 +1,6 @@
 import './App.css';
 import Card from './components/Card';
+import Pack from './components/Pack';
 
 function App() {
     return (
@@ -8,7 +9,8 @@ function App() {
                 <h1>tommy-gamba</h1>
             </header>
             <main>
-                <Card />
+                {/* <Card /> */}
+                <Pack />
             </main>
         </div>
     );

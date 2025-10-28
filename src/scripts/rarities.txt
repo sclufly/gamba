@@ -1,0 +1,61 @@
+-----
+rarities for dp1 (Diamond & Pearl):
+-----
+Common - ?
+Uncommon - ?
+Rare - ?
+Rare Holo - 1 in 18
+Rare Holo LV.X - 1 in 36
+
+-----
+rarities for me1 (Mega Evolution):
+https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Mega-Evolution-Pull-Rates/40cbeedc-21ce-473b-aef1-74e3969d9f91/?srsltid=AfmBOopTAFaE5I2h4pON37ZJ5WeCxzlaREeDiENyy40IaP7s-Yl09a8j
+-----
+Common - ?
+Uncommon - ?
+Rare - ?
+Double Rare - 1 in 5
+Illustration Rare - 1 in 9
+Ultra Rare - 1 in 12
+Special Illustration Rare - 1 in 101
+Mega Hyper Rare - 1 in 1260
+
+-----
+rarities for sv8 (Surging Sparks):
+https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Surging-Sparks-Pull-Rates/6ccfb6ab-f26a-4ce8-bab5-5f91c85ec70e/?srsltid=AfmBOoroeA-mrwEVmpomIvuOTzx3HnIfF1yaPYIBpFH9aqhUAP69tRs-
+-----
+Common - ?
+Uncommon - ?
+Rare - ?
+Double Rare - 1 in 6
+Illustration Rare - 1 in 13
+Ultra Rare - 1 in 15
+ACE SPEC Rare - 1 in 20
+Special Illustration Rare - 1 in 87
+Hyper Rare - 1 in 188
+
+-----
+rarities for sv8pt5 (Prismatic Evolutions):
+https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Prismatic-Evolutions-Pull-Rates/d94889ea-f76a-4a13-b74d-5b0b071220a7/?srsltid=AfmBOooLTOGC35UqDgk1kzwLkdF7dhIF7b-HYh-tcT6C0MQau1OL36Py
+-----
+Common - ?
+Uncommon - ?
+Rare - ?
+Double Rare - 1 in 6
+Ultra Rare - 1 in 13
+ACE SPEC Rare - 1 in 21
+Special Illustration Rare - 1 in 45
+Hyper Rare - 1 in 180
+
+-----
+rarities for sv10 (Destined Rivals):
+https://www.tcgplayer.com/content/article/Pok%C3%A9mon-TCG-Destined-Rivals-Pull-Rates/43ba832e-44c9-45a4-ae2e-594df2defdda/?srsltid=AfmBOooaksFE_3CVpNrN5PoXxBvzJZwbJxKkhA48lDc2B8c4oTTXLx97
+-----
+Common - ?
+Uncommon - ?
+Rare - ?
+Double Rare - 1 in 5
+Illustration Rare - 1 in 12
+Ultra Rare - 1 in 16
+Special Illustration Rare - 1 in 94
+Hyper Rare - 1 in 149
