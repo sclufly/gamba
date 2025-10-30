@@ -143,9 +143,10 @@ const Pack = () => {
 
 // TODO:
 // i should have nice animations for opening a pack
-// i should add price data for special cards
-// i should add a mode for looking at special cards (not added to collection)
 // i should have a collection tracker
 // i should have a limit on the number of cards you can get per day
+// i should add a mode for looking at special cards (not added to collection)
+// i should add price data for special cards
+
 
 export default Pack;
