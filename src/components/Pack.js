@@ -24,6 +24,35 @@ const Pack = () => {
     // the real number is 10, but this can be reduced to increase hit rates
     const rarityMultiplier = 1.2;
 
+    // helper function to get collection for a specific set from local storage
+    const getSetCollection = (setId) => {
+        const collection = localStorage.getItem(`${setId}`);
+        return collection ? JSON.parse(collection) : {};
+    };
+
+    // helper function to save a card to local storage
+    const saveCardToCollection = (card, setId) => {
+        const setCollection = getSetCollection(setId);
+        
+        // either increment pull count of existing card or add new card to collection
+        if (setCollection[card.id]) {
+            setCollection[card.id].count += 1;
+        } else {
+            setCollection[card.id] = {
+                id: card.id,
+                name: card.name,
+                rarity: card.rarity,
+                number: card.number,
+                images: card.images,
+                count: 1,
+                firstPulled: new Date().toISOString()
+            };
+        }
+        
+        localStorage.setItem(`${setId}`, JSON.stringify(setCollection));
+        return setCollection[card.id];
+    };
+
     // generate cards based on rarity
     const generateCards = (cardsByRarity, setId) => {
         const setRarities = rarities[setId];
@@ -108,6 +137,12 @@ const Pack = () => {
         const selectedCards = generateCards(cardsByRarity, selectedSetId);
         const urls = selectedCards.map(card => card.images.large);
 
+        // save each card to local storage
+        selectedCards.forEach(card => {
+            const savedCard = saveCardToCollection(card, selectedSetId);
+            console.log(`Saved ${savedCard.name} to collection. Pull count: ${savedCard.count}`);
+        });
+
         console.log('set id used:', selectedSetId);
         console.log('selected cards:', selectedCards);
 
@@ -142,11 +177,9 @@ const Pack = () => {
 };
 
 // TODO:
-// i should have nice animations for opening a pack
-// i should have a collection tracker
-// i should have a limit on the number of cards you can get per day
+// i should add nice animations for opening a pack and viewing collected cards
+// i should add a limit on the number of packs you can open per day
 // i should add a mode for looking at special cards (not added to collection)
 // i should add price data for special cards
-
 
 export default Pack;

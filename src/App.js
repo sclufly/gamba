@@ -1,6 +1,7 @@
 import './App.css';
 import Card from './components/Card';
 import Pack from './components/Pack';
+import Collection from './components/Collection';
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
             <main>
                 {/* <Card /> */}
                 <Pack />
+                <Collection />
             </main>
         </div>
     );
