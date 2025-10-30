@@ -18,23 +18,34 @@ const Pack = () => {
     const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
     const baseRarities = ['Common', 'Uncommon', 'Rare'];
 
+    const packSize = 5;
+
+    // this represents the number of cards in a normal pack
+    // the real number is 10, but this can be reduced to increase hit rates
+    const rarityMultiplier = 1.2;
+
     // generate cards based on rarity
     const generateCards = (cardsByRarity, setId) => {
         const setRarities = rarities[setId];
         const selectedCards = [];
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < packSize; i++) {
 
             let selectedRarity = null;
-            let roll = Math.random() * 100;
+            const roll = Math.random() * 100; // 0-100
+            let cumulativeThreshold = 0;
             
-            // check each rarity from rarest to most common
+            // check each rarity with cumulative probability ranges
             for (const [rarity, rate] of Object.entries(setRarities)) {
-
                 if (rate === null || !cardsByRarity[rarity]?.length) continue;
 
-                // if roll is less than 100/rate, we hit this rarity
-                if (roll < (100 / rate)) {
+                // convert per-pack rate to per-card rate
+                const perCardRate = rate * rarityMultiplier;
+                const rarityPercentage = 100 / perCardRate;
+                cumulativeThreshold += rarityPercentage;
+                
+                // if there's a hit, take it
+                if (roll < cumulativeThreshold) {
                     selectedRarity = rarity;
                     break;
                 }
