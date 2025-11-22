@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import sets from '../data/sets';
+import Dropdown from './Dropdown';
+import '../styles/Card.css';
 
 const Card = () => {
 
@@ -11,7 +13,8 @@ const Card = () => {
     const [imageUrl, setImageUrl] = useState(null);
 
     const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
-    const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
+    const filteredSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
+    const dropdownSets = [{ id: 'random', name: 'Random' }, ...filteredSets];
 
     const handleClick = async () => {
         // determine which set to use: either selected or random
@@ -39,23 +42,22 @@ const Card = () => {
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <label htmlFor="set-select" style={{ fontSize: 14 }}>Set:</label>
-                <select id="set-select" value={selectedSetId} onChange={e => setSelectedSetId(e.target.value)}>
-                    <option value="random">Random</option>
-                    {dropdownSets.map(s => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
-                    ))} 
-                </select>
-                <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
+        <div className="card-container">
+            <p>Welcome to <b>&lt;Card /&gt;</b>! Select a set below and click the 🍀 button to receive 1 random card.</p>
+            <div className="card-controls">
+                <Dropdown 
+                    sets={dropdownSets}
+                    selectedSetId={selectedSetId}
+                    onSetChange={setSelectedSetId}
+                />
             </div>
+            <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
             {imageUrl && (
-                <div style={{ marginTop: 20 }}>
-                    <img src={imageUrl} alt="set hires" style={{ width: 400, height: 'auto', display: 'block' }} />
+                <div className="card-image-container">
+                    <img src={imageUrl} alt="set hires" className="card-image" />
                 </div>
             )}
-            {imageUrl && <p style={{ textAlign: 'center' }}>{setObject.name} ({setObject.releaseDate}) — {cardNumber}/{maxCards}</p>}
+            {imageUrl && <p className="card-info">{setObject.name} ({setObject.releaseDate}) — {cardNumber}/{maxCards}</p>}
         </div>
     );
 };

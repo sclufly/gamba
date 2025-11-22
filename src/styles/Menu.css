@@ -1,0 +1,84 @@
+/* Navigation menu */
+.nav-menu {
+  position: absolute;
+  left: 60px;
+}
+
+/* Hamburger menu button */
+.hamburger-button {
+  padding: 10px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: #0066cc;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.hamburger-button:hover {
+  background-color: #ffd700;
+}
+
+.hamburger-button:hover .hamburger-line {
+  background-color: #000;
+}
+
+/* Hamburger menu lines */
+.hamburger-line {
+  width: 24px;
+  height: 3px;
+  background-color: #fff;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  top: 60px;
+  background-color: #0066cc;
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  min-width: 150px;
+  z-index: 1000;
+}
+
+/* Menu item button base */
+.menu-item {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-family: 'Outfit';
+}
+
+/* Menu item inactive state */
+.menu-item-inactive {
+  background-color: #0066cc;
+  color: #fff;
+  font-weight: normal;
+}
+
+.menu-item-inactive:hover {
+  background-color: #ffd700;
+  color: #000;
+}
+
+/* Menu item active state */
+.menu-item-active {
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
+}
+
+/* Remove border from last menu item */
+.menu-item:last-child {
+  border-bottom: none;
+}

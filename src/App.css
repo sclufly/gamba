@@ -57,3 +57,14 @@ h1 {
   outline: 3px solid rgba(30,144,255,0.18);
   outline-offset: 3px;
 }
+
+/* App header */
+.App-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  width: 100%;
+}
+

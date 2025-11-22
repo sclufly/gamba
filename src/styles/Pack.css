@@ -1,0 +1,38 @@
+/* Pack component container */
+.pack-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Pack controls */
+.pack-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Pack results container */
+.pack-results {
+  margin-top: 20px;
+}
+
+/* Individual card result */
+.pack-card-result {
+  margin-bottom: 20px;
+}
+
+/* Pack button */
+.pack-container .card-button {
+  margin-top: 20px;
+}
+
+.pack-card-image {
+  width: 400px;
+  height: auto;
+  display: block;
+}
+
+.pack-card-info {
+  text-align: center;
+}

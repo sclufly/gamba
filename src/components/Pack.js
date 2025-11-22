@@ -6,6 +6,8 @@ import sv8 from '../data/sv8';
 import sv8pt5 from '../data/sv8pt5';
 import sv10 from '../data/sv10';
 import rarities from '../data/rarities';
+import Dropdown from './Dropdown';
+import '../styles/Pack.css';
 
 const Pack = () => {
 
@@ -152,22 +154,22 @@ const Pack = () => {
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <label htmlFor="set-select" style={{ fontSize: 14 }}>Set:</label>
-                <select id="set-select" value={selectedSetId} onChange={e => setSelectedSetId(e.target.value)}>
-                    {dropdownSets.map(s => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
-                    ))} 
-                </select>
-                <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
+        <div className="pack-container">
+            <p>Welcome to <b>&lt;Pack /&gt;</b>! Select a set below and click the 🍀 button to receive 5 random cards.</p>
+            <div className="pack-controls">
+                <Dropdown 
+                    sets={dropdownSets}
+                    selectedSetId={selectedSetId}
+                    onSetChange={setSelectedSetId}
+                />
             </div>
+            <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
             {imageUrl && (
-                <div style={{ marginTop: 20 }}>
+                <div className="pack-results">
                     {imageUrl.map((url, index) => (
-                        <div key={index} style={{ marginBottom: 20 }}>
-                            <img src={url} alt={`set ${index + 1} hires`} style={{ width: 400, height: 'auto', display: 'block' }} />
-                            <p style={{ textAlign: 'center' }}>{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
+                        <div key={index} className="pack-card-result">
+                            <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image" />
+                            <p className="pack-card-info">{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
                         </div>
                     ))}
                 </div>

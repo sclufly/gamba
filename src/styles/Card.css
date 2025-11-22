@@ -1,0 +1,34 @@
+/* Card component container */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card controls */
+.card-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Card image container */
+.card-image-container {
+  margin-top: 20px;
+}
+
+.card-image {
+  width: 400px;
+  height: auto;
+  display: block;
+}
+
+/* Card info text */
+.card-info {
+  text-align: center;
+}
+
+/* Card button */
+.card-container .card-button {
+  margin-top: 20px;
+}

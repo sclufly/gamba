@@ -1,0 +1,103 @@
+/* Dropdown component styling */
+.dropdown-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.dropdown-label {
+  font-size: 14px;
+  font-family: 'Outfit';
+  color: #fff;
+  font-weight: 600;
+}
+
+.custom-dropdown {
+  position: relative;
+}
+
+.dropdown-select {
+  font-family: 'Outfit';
+  font-size: 16px;
+  padding: 8px 12px;
+  background-color: #0066cc;
+  color: #fff;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 200px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-select::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid currentColor;
+}
+
+.dropdown-select.open {
+  border-radius: 8px;
+}
+
+.dropdown-select:hover {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.dropdown-select:focus {
+  outline: none;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  background-color: #0066cc;
+  border: 2px solid #ffd700;
+  border-radius: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid #fff;
+  text-align: left;
+  font-family: 'Outfit';
+  font-weight: normal;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option-inactive {
+  background-color: #0066cc;
+  color: #fff;
+}
+
+.dropdown-option-inactive:hover {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.dropdown-option-active {
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
+}
