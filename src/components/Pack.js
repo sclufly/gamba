@@ -163,12 +163,17 @@ const Pack = () => {
                     onSetChange={setSelectedSetId}
                 />
             </div>
-            <button className="card-button" onClick={handleClick}>LUCKGE 🍀</button>
+            <button className="card-button" onClick={handleClick}>🍀</button>
             {imageUrl && (
                 <div className="pack-results">
                     {imageUrl.map((url, index) => (
                         <div key={index} className="pack-card-result">
-                            <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image" />
+                            <div className="card-3d-container">
+                                {[...Array(100)].map((_, i) => (
+                                    <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
+                                ))}
+                                <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image card-3d-image" />
+                            </div>
                             <p className="pack-card-info">{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
                         </div>
                     ))}
