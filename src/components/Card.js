@@ -58,7 +58,9 @@ const Card = () => {
                         {[...Array(100)].map((_, i) => (
                             <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
                         ))}
-                        <img src={imageUrl} alt="set hires" className="card-image card-3d-image" />
+                        <div className="card-3d-rotator">
+                            <img src={imageUrl} alt="set hires" className="card-image card-3d-image" />
+                        </div>
                     </div>
                 </div>
             )}

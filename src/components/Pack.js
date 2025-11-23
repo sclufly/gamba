@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import sets from '../data/sets';
 import dp1 from '../data/dp1';
 import me1 from '../data/me1';
@@ -15,6 +15,47 @@ const Pack = () => {
     const [cardObjects, setCardObjects] = useState(null);
     const [selectedSetId, setSelectedSetId] = useState('dp1');
     const [imageUrl, setImageUrl] = useState(null);
+    const cardRefs = useRef([]);
+
+    // Mouse tracking for holographic effect
+    useEffect(() => {
+        const handleMouseMove = (e, cardElement, index) => {
+            const rect = cardElement.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const px = x / rect.width;
+            const py = y / rect.height;
+            
+            cardElement.style.setProperty('--mx', `${px * 100}%`);
+            cardElement.style.setProperty('--my', `${py * 100}%`);
+            cardElement.style.setProperty('--posx', `${px * 100}%`);
+            cardElement.style.setProperty('--posy', `${py * 100}%`);
+            
+            // Calculate distance from center for hyp variable
+            const dx = px - 0.5;
+            const dy = py - 0.5;
+            const hyp = Math.sqrt(dx * dx + dy * dy);
+            cardElement.style.setProperty('--hyp', hyp);
+        };
+
+        cardRefs.current.forEach((cardElement, index) => {
+            if (cardElement) {
+                const mouseMoveHandler = (e) => handleMouseMove(e, cardElement, index);
+                cardElement.addEventListener('mousemove', mouseMoveHandler);
+                
+                // Cleanup
+                cardElement._mouseMoveHandler = mouseMoveHandler;
+            }
+        });
+
+        return () => {
+            cardRefs.current.forEach((cardElement) => {
+                if (cardElement && cardElement._mouseMoveHandler) {
+                    cardElement.removeEventListener('mousemove', cardElement._mouseMoveHandler);
+                }
+            });
+        };
+    }, [imageUrl]);
 
     const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
     const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
@@ -166,17 +207,27 @@ const Pack = () => {
             <button className="card-button" onClick={handleClick}>🍀</button>
             {imageUrl && (
                 <div className="pack-results">
-                    {imageUrl.map((url, index) => (
-                        <div key={index} className="pack-card-result">
-                            <div className="card-3d-container">
-                                {[...Array(100)].map((_, i) => (
-                                    <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
-                                ))}
-                                <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image card-3d-image" />
+                    {imageUrl.map((url, index) => {
+                        const holoType = index % 2 === 0 ? 'pokemon' : 'trainer';
+                        return (
+                            <div 
+                                key={index} 
+                                className="pack-card-result"
+                                ref={(el) => (cardRefs.current[index] = el)}
+                            >
+                                <div className="card-3d-container">
+                                    {[...Array(100)].map((_, i) => (
+                                        <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
+                                    ))}
+                                    <div className="card-3d-rotator">
+                                        <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image card-3d-image" />
+                                        <div className={`card-shine card-shine-${holoType}`}></div>
+                                    </div>
+                                </div>
+                                <p className="pack-card-info">{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
                             </div>
-                            <p className="pack-card-info">{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

@@ -50,7 +50,7 @@ h1 {
 }
 
 /* Shared 3D card effect */
-/* from Vincent Durand - https://codepen.io/onediv/pen/BprVzp */
+/* 3D card effect from Vincent Durand - https://codepen.io/onediv/pen/BprVzp */
 .card-3d-container {
   position: relative;
   display: inline-block;
@@ -58,10 +58,26 @@ h1 {
   perspective: 1000px;
 }
 
-.card-3d-container .card-3d-image {
+.card-3d-rotator {
+  position: relative;
+  display: grid;
+  grid-template-areas: "card";
   transform: rotateX(0) rotateY(0);
   transition: 100ms linear transform;
+  transform-style: preserve-3d;
+}
+
+.card-3d-container .card-3d-image {
+  grid-area: card;
+  height: auto;
+  display: block;
   position: relative;
+  max-width: 100%;
+}
+
+.card-3d-container .card-shine {
+  grid-area: card;
+  pointer-events: none;
 }
 
 .card-3d-container .card-3d-image::before {
@@ -195,115 +211,115 @@ h1 {
 .card-grid-cell-100 { top: 90%; left: 90%; }
 
 /* Hover transforms for each cell */
-.card-grid-cell-1:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(-20deg); }
-.card-grid-cell-2:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(-15deg); }
-.card-grid-cell-3:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(-10deg); }
-.card-grid-cell-4:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(-5deg); }
-.card-grid-cell-5:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(0deg); }
-.card-grid-cell-6:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(5deg); }
-.card-grid-cell-7:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(10deg); }
-.card-grid-cell-8:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(15deg); }
-.card-grid-cell-9:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(20deg); }
-.card-grid-cell-10:hover ~ .card-3d-image { transform: rotateX(20deg) rotateY(25deg); }
+.card-grid-cell-1:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(-20deg); }
+.card-grid-cell-2:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(-15deg); }
+.card-grid-cell-3:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(-10deg); }
+.card-grid-cell-4:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(-5deg); }
+.card-grid-cell-5:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(0deg); }
+.card-grid-cell-6:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(5deg); }
+.card-grid-cell-7:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(10deg); }
+.card-grid-cell-8:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(15deg); }
+.card-grid-cell-9:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(20deg); }
+.card-grid-cell-10:hover ~ .card-3d-rotator { transform: rotateX(20deg) rotateY(25deg); }
 
-.card-grid-cell-11:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(-20deg); }
-.card-grid-cell-12:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(-15deg); }
-.card-grid-cell-13:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(-10deg); }
-.card-grid-cell-14:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(-5deg); }
-.card-grid-cell-15:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(0deg); }
-.card-grid-cell-16:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(5deg); }
-.card-grid-cell-17:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(10deg); }
-.card-grid-cell-18:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(15deg); }
-.card-grid-cell-19:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(20deg); }
-.card-grid-cell-20:hover ~ .card-3d-image { transform: rotateX(15deg) rotateY(25deg); }
+.card-grid-cell-11:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(-20deg); }
+.card-grid-cell-12:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(-15deg); }
+.card-grid-cell-13:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(-10deg); }
+.card-grid-cell-14:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(-5deg); }
+.card-grid-cell-15:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(0deg); }
+.card-grid-cell-16:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(5deg); }
+.card-grid-cell-17:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(10deg); }
+.card-grid-cell-18:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(15deg); }
+.card-grid-cell-19:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(20deg); }
+.card-grid-cell-20:hover ~ .card-3d-rotator { transform: rotateX(15deg) rotateY(25deg); }
 
-.card-grid-cell-21:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(-20deg); }
-.card-grid-cell-22:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(-15deg); }
-.card-grid-cell-23:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(-10deg); }
-.card-grid-cell-24:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(-5deg); }
-.card-grid-cell-25:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(0deg); }
-.card-grid-cell-26:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(5deg); }
-.card-grid-cell-27:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(10deg); }
-.card-grid-cell-28:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(15deg); }
-.card-grid-cell-29:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(20deg); }
-.card-grid-cell-30:hover ~ .card-3d-image { transform: rotateX(10deg) rotateY(25deg); }
+.card-grid-cell-21:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(-20deg); }
+.card-grid-cell-22:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(-15deg); }
+.card-grid-cell-23:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(-10deg); }
+.card-grid-cell-24:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(-5deg); }
+.card-grid-cell-25:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(0deg); }
+.card-grid-cell-26:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(5deg); }
+.card-grid-cell-27:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(10deg); }
+.card-grid-cell-28:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(15deg); }
+.card-grid-cell-29:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(20deg); }
+.card-grid-cell-30:hover ~ .card-3d-rotator { transform: rotateX(10deg) rotateY(25deg); }
 
-.card-grid-cell-31:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(-20deg); }
-.card-grid-cell-32:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(-15deg); }
-.card-grid-cell-33:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(-10deg); }
-.card-grid-cell-34:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(-5deg); }
-.card-grid-cell-35:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(0deg); }
-.card-grid-cell-36:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(5deg); }
-.card-grid-cell-37:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(10deg); }
-.card-grid-cell-38:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(15deg); }
-.card-grid-cell-39:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(20deg); }
-.card-grid-cell-40:hover ~ .card-3d-image { transform: rotateX(5deg) rotateY(25deg); }
+.card-grid-cell-31:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(-20deg); }
+.card-grid-cell-32:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(-15deg); }
+.card-grid-cell-33:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(-10deg); }
+.card-grid-cell-34:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(-5deg); }
+.card-grid-cell-35:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(0deg); }
+.card-grid-cell-36:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(5deg); }
+.card-grid-cell-37:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(10deg); }
+.card-grid-cell-38:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(15deg); }
+.card-grid-cell-39:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(20deg); }
+.card-grid-cell-40:hover ~ .card-3d-rotator { transform: rotateX(5deg) rotateY(25deg); }
 
-.card-grid-cell-41:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(-20deg); }
-.card-grid-cell-42:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(-15deg); }
-.card-grid-cell-43:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(-10deg); }
-.card-grid-cell-44:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(-5deg); }
-.card-grid-cell-45:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(0deg); }
-.card-grid-cell-46:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(5deg); }
-.card-grid-cell-47:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(10deg); }
-.card-grid-cell-48:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(15deg); }
-.card-grid-cell-49:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(20deg); }
-.card-grid-cell-50:hover ~ .card-3d-image { transform: rotateX(0deg) rotateY(25deg); }
+.card-grid-cell-41:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(-20deg); }
+.card-grid-cell-42:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(-15deg); }
+.card-grid-cell-43:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(-10deg); }
+.card-grid-cell-44:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(-5deg); }
+.card-grid-cell-45:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(0deg); }
+.card-grid-cell-46:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(5deg); }
+.card-grid-cell-47:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(10deg); }
+.card-grid-cell-48:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(15deg); }
+.card-grid-cell-49:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(20deg); }
+.card-grid-cell-50:hover ~ .card-3d-rotator { transform: rotateX(0deg) rotateY(25deg); }
 
-.card-grid-cell-51:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(-20deg); }
-.card-grid-cell-52:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(-15deg); }
-.card-grid-cell-53:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(-10deg); }
-.card-grid-cell-54:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(-5deg); }
-.card-grid-cell-55:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(0deg); }
-.card-grid-cell-56:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(5deg); }
-.card-grid-cell-57:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(10deg); }
-.card-grid-cell-58:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(15deg); }
-.card-grid-cell-59:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(20deg); }
-.card-grid-cell-60:hover ~ .card-3d-image { transform: rotateX(-5deg) rotateY(25deg); }
+.card-grid-cell-51:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(-20deg); }
+.card-grid-cell-52:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(-15deg); }
+.card-grid-cell-53:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(-10deg); }
+.card-grid-cell-54:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(-5deg); }
+.card-grid-cell-55:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(0deg); }
+.card-grid-cell-56:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(5deg); }
+.card-grid-cell-57:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(10deg); }
+.card-grid-cell-58:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(15deg); }
+.card-grid-cell-59:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(20deg); }
+.card-grid-cell-60:hover ~ .card-3d-rotator { transform: rotateX(-5deg) rotateY(25deg); }
 
-.card-grid-cell-61:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(-20deg); }
-.card-grid-cell-62:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(-15deg); }
-.card-grid-cell-63:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(-10deg); }
-.card-grid-cell-64:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(-5deg); }
-.card-grid-cell-65:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(0deg); }
-.card-grid-cell-66:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(5deg); }
-.card-grid-cell-67:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(10deg); }
-.card-grid-cell-68:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(15deg); }
-.card-grid-cell-69:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(20deg); }
-.card-grid-cell-70:hover ~ .card-3d-image { transform: rotateX(-10deg) rotateY(25deg); }
+.card-grid-cell-61:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(-20deg); }
+.card-grid-cell-62:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(-15deg); }
+.card-grid-cell-63:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(-10deg); }
+.card-grid-cell-64:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(-5deg); }
+.card-grid-cell-65:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(0deg); }
+.card-grid-cell-66:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(5deg); }
+.card-grid-cell-67:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(10deg); }
+.card-grid-cell-68:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(15deg); }
+.card-grid-cell-69:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(20deg); }
+.card-grid-cell-70:hover ~ .card-3d-rotator { transform: rotateX(-10deg) rotateY(25deg); }
 
-.card-grid-cell-71:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(-20deg); }
-.card-grid-cell-72:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(-15deg); }
-.card-grid-cell-73:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(-10deg); }
-.card-grid-cell-74:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(-5deg); }
-.card-grid-cell-75:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(0deg); }
-.card-grid-cell-76:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(5deg); }
-.card-grid-cell-77:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(10deg); }
-.card-grid-cell-78:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(15deg); }
-.card-grid-cell-79:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(20deg); }
-.card-grid-cell-80:hover ~ .card-3d-image { transform: rotateX(-15deg) rotateY(25deg); }
+.card-grid-cell-71:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(-20deg); }
+.card-grid-cell-72:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(-15deg); }
+.card-grid-cell-73:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(-10deg); }
+.card-grid-cell-74:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(-5deg); }
+.card-grid-cell-75:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(0deg); }
+.card-grid-cell-76:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(5deg); }
+.card-grid-cell-77:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(10deg); }
+.card-grid-cell-78:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(15deg); }
+.card-grid-cell-79:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(20deg); }
+.card-grid-cell-80:hover ~ .card-3d-rotator { transform: rotateX(-15deg) rotateY(25deg); }
 
-.card-grid-cell-81:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(-20deg); }
-.card-grid-cell-82:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(-15deg); }
-.card-grid-cell-83:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(-10deg); }
-.card-grid-cell-84:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(-5deg); }
-.card-grid-cell-85:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(0deg); }
-.card-grid-cell-86:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(5deg); }
-.card-grid-cell-87:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(10deg); }
-.card-grid-cell-88:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(15deg); }
-.card-grid-cell-89:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(20deg); }
-.card-grid-cell-90:hover ~ .card-3d-image { transform: rotateX(-20deg) rotateY(25deg); }
+.card-grid-cell-81:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(-20deg); }
+.card-grid-cell-82:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(-15deg); }
+.card-grid-cell-83:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(-10deg); }
+.card-grid-cell-84:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(-5deg); }
+.card-grid-cell-85:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(0deg); }
+.card-grid-cell-86:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(5deg); }
+.card-grid-cell-87:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(10deg); }
+.card-grid-cell-88:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(15deg); }
+.card-grid-cell-89:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(20deg); }
+.card-grid-cell-90:hover ~ .card-3d-rotator { transform: rotateX(-20deg) rotateY(25deg); }
 
-.card-grid-cell-91:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(-20deg); }
-.card-grid-cell-92:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(-15deg); }
-.card-grid-cell-93:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(-10deg); }
-.card-grid-cell-94:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(-5deg); }
-.card-grid-cell-95:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(0deg); }
-.card-grid-cell-96:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(5deg); }
-.card-grid-cell-97:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(10deg); }
-.card-grid-cell-98:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(15deg); }
-.card-grid-cell-99:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(20deg); }
-.card-grid-cell-100:hover ~ .card-3d-image { transform: rotateX(-25deg) rotateY(25deg); }
+.card-grid-cell-91:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(-20deg); }
+.card-grid-cell-92:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(-15deg); }
+.card-grid-cell-93:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(-10deg); }
+.card-grid-cell-94:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(-5deg); }
+.card-grid-cell-95:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(0deg); }
+.card-grid-cell-96:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(5deg); }
+.card-grid-cell-97:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(10deg); }
+.card-grid-cell-98:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(15deg); }
+.card-grid-cell-99:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(20deg); }
+.card-grid-cell-100:hover ~ .card-3d-rotator { transform: rotateX(-25deg) rotateY(25deg); }
 
 .card-button:active {
   transform: translateY(2px) scale(0.996);
