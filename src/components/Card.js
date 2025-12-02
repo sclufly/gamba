@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import sets from '../data/sets';
 import Dropdown from './Dropdown';
+import { useCardMouseTracking } from '../utils/cardEffects';
 import '../styles/Card.css';
 
 const Card = () => {
@@ -11,6 +12,23 @@ const Card = () => {
     const [cardObject, setCardObject] = useState(null);
     const [selectedSetId, setSelectedSetId] = useState('random');
     const [imageUrl, setImageUrl] = useState(null);
+    const cardRef = useRef(null);
+    const { handleMouseMove } = useCardMouseTracking();
+
+    // Mouse tracking for holographic effect
+    useEffect(() => {
+        const mouseMoveHandler = (e) => handleMouseMove(e, cardRef.current);
+
+        if (cardRef.current) {
+            cardRef.current.addEventListener('mousemove', mouseMoveHandler);
+        }
+
+        return () => {
+            if (cardRef.current) {
+                cardRef.current.removeEventListener('mousemove', mouseMoveHandler);
+            }
+        };
+    }, [imageUrl]);
 
     const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
     const filteredSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
@@ -54,12 +72,13 @@ const Card = () => {
             <button className="card-button" onClick={handleClick}>🍀</button>
             {imageUrl && (
                 <div className="card-image-container">
-                    <div className="card-3d-container">
+                    <div className="card-3d-container" ref={cardRef}>
                         {[...Array(100)].map((_, i) => (
                             <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
                         ))}
                         <div className="card-3d-rotator">
                             <img src={imageUrl} alt="set hires" className="card-image card-3d-image" />
+                            <div className="card-glare"></div>
                         </div>
                     </div>
                 </div>

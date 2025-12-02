@@ -7,6 +7,7 @@ import sv8pt5 from '../data/sv8pt5';
 import sv10 from '../data/sv10';
 import rarities from '../data/rarities';
 import Dropdown from './Dropdown';
+import { useCardMouseTracking } from '../utils/cardEffects';
 import '../styles/Pack.css';
 
 const Pack = () => {
@@ -16,31 +17,13 @@ const Pack = () => {
     const [selectedSetId, setSelectedSetId] = useState('dp1');
     const [imageUrl, setImageUrl] = useState(null);
     const cardRefs = useRef([]);
+    const { handleMouseMove } = useCardMouseTracking();
 
     // Mouse tracking for holographic effect
     useEffect(() => {
-        const handleMouseMove = (e, cardElement, index) => {
-            const rect = cardElement.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const px = x / rect.width;
-            const py = y / rect.height;
-            
-            cardElement.style.setProperty('--mx', `${px * 100}%`);
-            cardElement.style.setProperty('--my', `${py * 100}%`);
-            cardElement.style.setProperty('--posx', `${px * 100}%`);
-            cardElement.style.setProperty('--posy', `${py * 100}%`);
-            
-            // Calculate distance from center for hyp variable
-            const dx = px - 0.5;
-            const dy = py - 0.5;
-            const hyp = Math.sqrt(dx * dx + dy * dy);
-            cardElement.style.setProperty('--hyp', hyp);
-        };
-
-        cardRefs.current.forEach((cardElement, index) => {
+        cardRefs.current.forEach((cardElement) => {
             if (cardElement) {
-                const mouseMoveHandler = (e) => handleMouseMove(e, cardElement, index);
+                const mouseMoveHandler = (e) => handleMouseMove(e, cardElement);
                 cardElement.addEventListener('mousemove', mouseMoveHandler);
                 
                 // Cleanup
@@ -136,9 +119,16 @@ const Pack = () => {
             console.log(roll, selectedRarity);
         }
 
-        // sort cards by rarity (common first, rarest last)
+        // sort cards by rarity (common first, rarest last), then by supertype (Energy first)
         const rarityOrder = Object.keys(setRarities).reverse();
-        selectedCards.sort((a, b) => rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity));
+        const rarityRank = Object.fromEntries(
+            rarityOrder.map((r, i) => [r, i])
+        );
+        selectedCards.sort((a, b) =>
+            rarityRank[a.rarity] - rarityRank[b.rarity] ||
+            ((a.supertype === "Energy") ? 0 : 1) -
+            ((b.supertype === "Energy") ? 0 : 1)
+        );
 
         return selectedCards;
     }
@@ -208,7 +198,15 @@ const Pack = () => {
             {imageUrl && (
                 <div className="pack-results">
                     {imageUrl.map((url, index) => {
-                        const holoType = index % 2 === 0 ? 'pokemon' : 'trainer';
+                        const card = cardObjects[index];
+                        const isCommonRarity = baseRarities.includes(card.rarity);
+                        const isRareHolo = card.rarity.includes('Rare Holo');
+                        const cardGlare = isCommonRarity 
+                            ? 'card-glare' 
+                            : isRareHolo 
+                                ? 'card-glare card-holo card-holo-clipped' 
+                                : 'card-glare card-holo';
+                        
                         return (
                             <div 
                                 key={index} 
@@ -221,10 +219,10 @@ const Pack = () => {
                                     ))}
                                     <div className="card-3d-rotator">
                                         <img src={url} alt={`set ${index + 1} hires`} className="pack-card-image card-3d-image" />
-                                        <div className={`card-shine card-shine-${holoType}`}></div>
+                                        <div className={cardGlare}></div>
                                     </div>
                                 </div>
-                                <p className="pack-card-info">{cardObjects[index].name} ({cardObjects[index].rarity}) — {cardObjects[index].number}/{maxCards}</p>
+                                <p className="pack-card-info">{card.name} ({card.rarity}) — {card.number}/{maxCards}</p>
                             </div>
                         );
                     })}

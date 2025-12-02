@@ -49,6 +49,31 @@ h1 {
   transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
 }
 
+/* Base glare effect for all cards */
+.card-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 4.55% / 3.5%;
+  opacity: 0.6;
+  mix-blend-mode: color-dodge;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  will-change: transform, opacity, background-image, background-size,
+    background-position, background-blend-mode, filter;
+  
+  background-image: radial-gradient(
+    farthest-corner circle at var(--mx) var(--my),
+    rgba(255, 255, 255, 0.3) 15%,
+    rgba(200, 200, 200, 0.2) 40%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+  background-size: 100% 100%;
+  background-position: center;
+}
+
 /* Shared 3D card effect */
 /* 3D card effect from Vincent Durand - https://codepen.io/onediv/pen/BprVzp */
 .card-3d-container {
