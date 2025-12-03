@@ -144,8 +144,8 @@
   top: 12%;
   transform-origin: 50% 100%;
   /* start further off-screen to keep cards more hidden; var --i used for stagger */
-  transform: translateX(200%) translateY(0);
-  transition: transform 320ms cubic-bezier(.22,.9,.28,1), opacity 260ms ease;
+  transform: translateX(150%) translateY(0);
+  transition: transform 500ms cubic-bezier(.22,.9,.28,1), opacity 260ms ease;
   transition-delay: calc(var(--i) * 40ms);
   z-index: calc(var(--total) - var(--i));
   width: 300px;
@@ -188,7 +188,7 @@
 /* removed cards fly out to the right and fade; use a slightly larger offset so they escape the stack */
 .pack-card-result.removed {
   /* animate removed cards with a sliding + fading keyframe */
-  animation: slideOut 420ms cubic-bezier(.2,.9,.2,1) forwards;
+  animation: slideOut 700ms cubic-bezier(.2,.9,.2,1) forwards;
   opacity: 0;
   pointer-events: none;
   z-index: 0;
@@ -200,7 +200,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateX(160%) translateY(0) rotate(10deg) scale(0.92);
+    transform: translateX(130%) translateY(0) rotate(10deg) scale(0.92);
     opacity: 0;
   }
 }
@@ -238,7 +238,7 @@
   left: auto;
   top: auto;
   transform: none !important;
-  transition: transform 300ms ease, opacity 300ms ease;
+  transition: transform 600ms ease, opacity 300ms ease;
   margin: 0 auto;
   width: 100%;
 }
