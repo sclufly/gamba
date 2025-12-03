@@ -14,6 +14,9 @@ const Pack = () => {
 
     const [maxCards, setMaxCards] = useState(null);
     const [cardObjects, setCardObjects] = useState(null);
+    const [opened, setOpened] = useState(false);
+    const [removedCount, setRemovedCount] = useState(0);
+    const [finalReveal, setFinalReveal] = useState(false);
     const [selectedSetId, setSelectedSetId] = useState('dp1');
     const [imageUrl, setImageUrl] = useState(null);
     const cardRefs = useRef([]);
@@ -182,6 +185,31 @@ const Pack = () => {
         setMaxCards(max);
         setCardObjects(selectedCards);
         setImageUrl(urls);
+
+        // reset animation state and then trigger entry animation
+        setRemovedCount(0);
+        setFinalReveal(false);
+        // reset opened so the CSS animation can retrigger
+        setOpened(false);
+        // small timeout to ensure class changes are applied in order
+        setTimeout(() => setOpened(true), 30);
+    }
+
+    const handleCardClick = (index) => {
+        if (!cardObjects) return;
+        const topIndex = removedCount; // top card is the lowest index that hasn't been removed
+        if (index !== topIndex) return; // only allow clicking the top card
+
+        // remove this top card (triggers CSS animation)
+        setRemovedCount((c) => {
+            const next = c + 1;
+            // when all cards have been clicked, show final reveal after short delay
+            if (next >= cardObjects.length) {
+                // reveal immediately when last card is clicked
+                setFinalReveal(true);
+            }
+            return next;
+        });
     }
 
     return (
@@ -196,7 +224,8 @@ const Pack = () => {
             </div>
             <button className="card-button" onClick={handleClick}>🍀</button>
             {imageUrl && (
-                <div className="pack-results">
+                <div className={`pack-results ${opened ? 'pack-opened' : ''} ${finalReveal ? 'pack-final' : ''}`}>
+                    <div className={`pack-clip ${finalReveal ? 'no-clip' : ''}`}>
                     {imageUrl.map((url, index) => {
                         const card = cardObjects[index];
                         const isCommonRarity = baseRarities.includes(card.rarity);
@@ -206,12 +235,19 @@ const Pack = () => {
                             : isRareHolo 
                                 ? 'card-glare card-holo card-holo-clipped' 
                                 : 'card-glare card-holo';
-                        
+                        const total = imageUrl.length;
+                        // Now we treat index 0 as the top-most card. removedCount counts how many top cards have been removed.
+                        // When finalReveal is active, show all cards again (don't mark them removed)
+                        const removed = !finalReveal && index < removedCount;
+                        const isTop = index === removedCount && !removed && !finalReveal;
+
                         return (
                             <div 
                                 key={index} 
-                                className="pack-card-result"
+                                className={`pack-card-result ${removed ? 'removed' : 'stacked'} ${isTop ? 'clickable' : ''}`}
                                 ref={(el) => (cardRefs.current[index] = el)}
+                                style={{ ['--i']: index, ['--total']: total }}
+                                onClick={() => handleCardClick(index)}
                             >
                                 <div className="card-3d-container">
                                     {[...Array(100)].map((_, i) => (
@@ -222,10 +258,14 @@ const Pack = () => {
                                         <div className={cardGlare}></div>
                                     </div>
                                 </div>
-                                <p className="pack-card-info">{card.name} ({card.rarity}) — {card.number}/{maxCards}</p>
+                                {/* only show info when this card is visible (top) or in final reveal */}
+                                {(!removed && (isTop || finalReveal)) && (
+                                    <p className="pack-card-info">{card.name} ({card.rarity}) — {card.number}/{maxCards}</p>
+                                )}
                             </div>
                         );
                     })}
+                    </div>
                 </div>
             )}
         </div>
@@ -234,8 +274,8 @@ const Pack = () => {
 
 // TODO:
 // i should add nice animations for opening a pack and viewing collected cards
+// i should add a chance of pulling a god pack
 // i should add a limit on the number of packs you can open per day
-// i should add a mode for looking at special cards (not added to collection)
 // i should add price data for special cards
 
 export default Pack;

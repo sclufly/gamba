@@ -106,7 +106,147 @@
   mix-blend-mode: exclusion;
 }
 
+/* Ensure holo/glare overlays appear above the image in the pack view */
+.pack-card-result .card-glare,
+.pack-card-result .card-holo,
+.pack-card-result .card-holo::after {
+  z-index: 9999;
+  pointer-events: none;
+}
+
 /* Clipped holo effect for image only (diamond & pearl rare cards) */
 .card-holo-clipped {
   clip-path: inset(10% 8.5% 50% 8.5%);
+}
+
+/* Pack opening animation and stacked layout */
+.pack-results {
+  /* pull the stack up slightly but avoid covering the button */
+  margin-top: -28px;
+  position: relative;
+  width: 340px;
+  height: 440px;
+}
+
+/* Clip sliding cards so off-screen transforms don't create page scrollbars */
+.pack-clip {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+.pack-clip.no-clip { overflow-x: visible; display: contents; }
+
+.pack-results .pack-card-result {
+  position: absolute;
+  left: 50%;
+  /* place the cards slightly lower so they don't overlap the button */
+  top: 12%;
+  transform-origin: 50% 100%;
+  /* start further off-screen to keep cards more hidden; var --i used for stagger */
+  transform: translateX(200%) translateY(0);
+  transition: transform 320ms cubic-bezier(.22,.9,.28,1), opacity 260ms ease;
+  transition-delay: calc(var(--i) * 40ms);
+  z-index: calc(var(--total) - var(--i));
+  width: 300px;
+  pointer-events: none;
+}
+
+/* when pack is opened, slide cards into a stacked pile centered */
+.pack-results.pack-opened .pack-card-result {
+  /* when opened, cards sit directly on top of each other */
+  transform: translateX(-50%) translateY(0);
+  /* disable pointer events on all by default; only the top (clickable) will enable them */
+  pointer-events: none;
+}
+
+.pack-card-result.stacked { }
+
+.pack-card-result.clickable { cursor: pointer; pointer-events: auto; z-index: calc(var(--total) + 100); }
+/* ensure the 3d container doesn't clip the scaled image */
+.pack-card-result .card-3d-container { overflow: visible; }
+/* scale only the image on hover so 3D rotator transforms remain intact */
+.pack-card-result.clickable .pack-card-image {
+  transition: transform 140ms cubic-bezier(.2,.9,.2,1), box-shadow 140ms ease;
+  transform-origin: 50% 50%;
+  position: relative;
+  z-index: calc(var(--total) + 10);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+}
+.pack-card-result.clickable:hover .pack-card-image {
+  transform: scale3d(1.08,1.08,1);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  z-index: calc(var(--total) + 200);
+}
+
+/* ensure inner grid cells receive pointer events for 3D hover */
+.pack-card-result.clickable .card-grid-cell { pointer-events: auto; }
+
+/* removed cards fly out to the right and fade; use a slightly larger offset so they escape the stack */
+.pack-card-result.removed {
+  /* animate removed cards with a sliding + fading keyframe */
+  animation: slideOut 420ms cubic-bezier(.2,.9,.2,1) forwards;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(160%) translateY(0) rotate(10deg) scale(0.92);
+    opacity: 0;
+  }
+}
+
+/* Final reveal: show all cards in a grid */
+.pack-results.pack-final {
+  position: static;
+  width: 100%;
+  height: auto;
+  display: grid;
+  /* spread into rows; each card gets its own grid cell and will wrap to new rows */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-auto-flow: row;
+  gap: 12px;
+  margin-top: 20px;
+  justify-items: center;
+}
+
+/* peek animation: a subtle nudge showing stacked cards */
+.pack-results.pack-opened { animation: peek 600ms ease 1 both; }
+@keyframes peek {
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-4px); }
+  40% { transform: translateY(0); }
+  60% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+/* persistent stack modifier (smaller and less pronounced) */
+.pack-results.pack-persistent { width: 320px; height: 420px; opacity: 0.95; margin-top: 16px; }
+.pack-results.pack-persistent .pack-card-info { font-size: 0.85rem; }
+
+.pack-results.pack-final .pack-card-result {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none !important;
+  transition: transform 300ms ease, opacity 300ms ease;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.pack-results.pack-final .pack-card-image { width: 100%; max-width: 360px; }
+
+/* Responsive: make stack smaller on small screens */
+@media (max-width: 640px) {
+  .pack-results { width: 95%; }
+  .pack-card-image { width: 220px; }
 }
