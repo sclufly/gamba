@@ -264,7 +264,11 @@ const Pack = () => {
                     onSetChange={setSelectedSetId}
                 />
             </div>
-            <button className="card-button" onClick={handleClick}>🍀</button>
+            <button 
+                className="card-button" 
+                onClick={handleClick}
+                disabled={showPack || (imageUrl && !finalReveal)}
+            >🍀</button>
             {showPack && (
                 <div className="pack-opening-container">
                     <div 
@@ -339,7 +343,7 @@ const Pack = () => {
 };
 
 // TODO:
-// i should add nice animations for opening a pack and viewing collected cards
+// i should add nice animations for viewing collected cards
 // i should add a chance of pulling a god pack
 // i should add a limit on the number of packs you can open per day
 // i should add price data for special cards
