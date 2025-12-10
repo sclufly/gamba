@@ -122,6 +122,7 @@
 /* Pack opening animation container */
 .pack-opening-container {
   margin-top: 20px;
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,23 +151,21 @@
   position: absolute;
   left: 0;
   width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: 3px solid #333;
   transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.6s ease;
 }
 
 .pack-top {
   top: 0;
   height: 21px; /* 5% of 420px */
+  background: linear-gradient(135deg, #ffd700 0%, #1e90ff 100%);
   border-radius: 12px 12px 0 0;
-  border-bottom: 1.5px solid #333;
 }
 
 .pack-bottom {
   top: 21px; /* starts right after the top 5% */
   height: 399px; /* 95% of 420px */
+  background: linear-gradient(135deg, #1e90ff 0%, #ffd700 100%);
   border-radius: 0 0 12px 12px;
-  border-top: 1.5px solid #333;
 }
 
 .cut-line {
@@ -174,26 +173,34 @@
   top: 21px; /* 5% mark where cut happens */
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, transparent 0%, #ffeb3b 50%, transparent 100%);
-  box-shadow: 0 0 10px #ffeb3b;
-  transition: width 0.1s linear;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(255, 215, 0, 1) 30%,
+    rgba(255, 255, 255, 1) 100%);
+  box-shadow: 
+    0 0 15px rgba(255, 215, 0, 1),
+    0 0 30px rgba(255, 215, 0, 0.8),
+    0 0 45px rgba(255, 215, 0, 0.5),
+    0 2px 8px rgba(255, 255, 255, 0.6);
+  transition: width 0.05s linear;
   pointer-events: none;
   z-index: 10;
+  border-radius: 2px;
 }
 
 .pack-instruction {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  color: #ffffff;
+  color: #000000;
   font-size: 14px;
   font-weight: 500;
   pointer-events: none;
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.6; }
+  0%, 100% { opacity: 0.7; }
   50% { opacity: 1; }
 }
 
