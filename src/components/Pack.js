@@ -7,7 +7,7 @@ import sv8pt5 from '../data/sv8pt5';
 import sv10 from '../data/sv10';
 import rarities from '../data/rarities';
 import Dropdown from './Dropdown';
-import { useCardMouseTracking } from '../utils/cardEffects';
+import { useCardMouseTracking, saveCardToCollection, generateCards } from '../utils/utils';
 import '../styles/Pack.css';
 
 const Pack = () => {
@@ -60,89 +60,6 @@ const Pack = () => {
     // the real number is 10, but this can be reduced to increase hit rates
     const rarityMultiplier = 1.2;
 
-    // helper function to get collection for a specific set from local storage
-    const getSetCollection = (setId) => {
-        const collection = localStorage.getItem(`${setId}`);
-        return collection ? JSON.parse(collection) : {};
-    };
-
-    // helper function to save a card to local storage
-    const saveCardToCollection = (card, setId) => {
-        const setCollection = getSetCollection(setId);
-        
-        // either increment pull count of existing card or add new card to collection
-        if (setCollection[card.id]) {
-            setCollection[card.id].count += 1;
-        } else {
-            setCollection[card.id] = {
-                id: card.id,
-                name: card.name,
-                rarity: card.rarity,
-                number: card.number,
-                images: card.images,
-                count: 1,
-                firstPulled: new Date().toISOString()
-            };
-        }
-        
-        localStorage.setItem(`${setId}`, JSON.stringify(setCollection));
-        return setCollection[card.id];
-    };
-
-    // generate cards based on rarity
-    const generateCards = (cardsByRarity, setId) => {
-        const setRarities = rarities[setId];
-        const selectedCards = [];
-
-        for (let i = 0; i < packSize; i++) {
-
-            let selectedRarity = null;
-            const roll = Math.random() * 100; // 0-100
-            let cumulativeThreshold = 0;
-            
-            // check each rarity with cumulative probability ranges
-            for (const [rarity, rate] of Object.entries(setRarities)) {
-                if (rate === null || !cardsByRarity[rarity]?.length) continue;
-
-                // convert per-pack rate to per-card rate
-                const perCardRate = rate * rarityMultiplier;
-                const rarityPercentage = 100 / perCardRate;
-                cumulativeThreshold += rarityPercentage;
-                
-                // if there's a hit, take it
-                if (roll < cumulativeThreshold) {
-                    selectedRarity = rarity;
-                    break;
-                }
-            }
-            
-            // if no rare card was selected, default to Common/Uncommon/Rare
-            if (!selectedRarity) {
-                selectedRarity = baseRarities[Math.floor(Math.random() * baseRarities.length)];
-            }
-            
-            // pick a random card from the selected rarity
-            const cardsInRarity = cardsByRarity[selectedRarity] || [];
-            const randomCard = cardsInRarity[Math.floor(Math.random() * cardsInRarity.length)];
-            selectedCards.push(randomCard);
-
-            console.log(roll, selectedRarity);
-        }
-
-        // sort cards by rarity (common first, rarest last), then by supertype (Energy first)
-        const rarityOrder = Object.keys(setRarities).reverse();
-        const rarityRank = Object.fromEntries(
-            rarityOrder.map((r, i) => [r, i])
-        );
-        selectedCards.sort((a, b) =>
-            rarityRank[a.rarity] - rarityRank[b.rarity] ||
-            ((a.supertype === "Energy") ? 0 : 1) -
-            ((b.supertype === "Energy") ? 0 : 1)
-        );
-
-        return selectedCards;
-    }
-
     const handleClick = async () => {
         
         // get the card data based on selected set ID
@@ -177,7 +94,7 @@ const Pack = () => {
         const max = allCards.length;
 
         // generate cards and set their URLs
-        const selectedCards = generateCards(cardsByRarity, selectedSetId);
+        const selectedCards = generateCards(cardsByRarity, selectedSetId, rarities, baseRarities, packSize, rarityMultiplier);
         const urls = selectedCards.map(card => card.images.large);
 
         // save each card to local storage

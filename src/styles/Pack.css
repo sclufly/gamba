@@ -253,18 +253,21 @@
   pointer-events: none;
 }
 
-/* when pack is opened, slide cards into a stacked pile centered */
 .pack-results.pack-opened .pack-card-result {
-  /* when opened, cards sit directly on top of each other */
   transform: translateX(-50%) translateY(0);
-  /* disable pointer events on all by default; only the top (clickable) will enable them */
   pointer-events: none;
 }
 
-.pack-card-result.clickable { cursor: pointer; pointer-events: auto; z-index: calc(var(--total) + 100); }
-/* ensure the 3d container doesn't clip the scaled image */
-.pack-card-result .card-3d-container { overflow: visible; }
-/* scale only the image on hover so 3D rotator transforms remain intact */
+.pack-card-result.clickable { 
+  cursor: pointer; 
+  pointer-events: auto; 
+  z-index: calc(var(--total) + 100); 
+}
+
+.pack-card-result .card-3d-container { 
+  overflow: visible; 
+}
+
 .pack-card-result.clickable .pack-card-image {
   transition: transform 140ms cubic-bezier(.2,.9,.2,1), box-shadow 140ms ease;
   transform-origin: 50% 50%;
@@ -281,12 +284,11 @@
   z-index: calc(var(--total) + 200);
 }
 
-/* ensure inner grid cells receive pointer events for 3D hover */
-.pack-card-result.clickable .card-grid-cell { pointer-events: auto; }
+.pack-card-result.clickable .card-grid-cell { 
+  pointer-events: auto; 
+}
 
-/* removed cards fly out to the right and fade; use a slightly larger offset so they escape the stack */
 .pack-card-result.removed {
-  /* animate removed cards with a sliding + fading keyframe */
   animation: slideOut 700ms cubic-bezier(.2,.9,.2,1) forwards;
   opacity: 0;
   pointer-events: none;
@@ -310,7 +312,6 @@
   width: 100%;
   height: auto;
   display: grid;
-  /* spread into rows; each card gets its own grid cell and will wrap to new rows */
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   grid-auto-flow: row;
   gap: 12px;
@@ -318,7 +319,6 @@
   justify-items: center;
 }
 
-/* peek animation: a subtle nudge showing stacked cards */
 .pack-results.pack-opened { animation: peek 600ms ease 1 both; }
 @keyframes peek {
   0% { transform: translateY(0); }
@@ -327,10 +327,6 @@
   60% { transform: translateY(-2px); }
   100% { transform: translateY(0); }
 }
-
-/* persistent stack modifier (smaller and less pronounced) */
-.pack-results.pack-persistent { width: 320px; height: 420px; opacity: 0.95; margin-top: 16px; }
-.pack-results.pack-persistent .pack-card-info { font-size: 0.85rem; }
 
 .pack-results.pack-final .pack-card-result {
   position: relative;

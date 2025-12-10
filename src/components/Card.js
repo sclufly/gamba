@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import sets from '../data/sets';
 import Dropdown from './Dropdown';
-import { useCardMouseTracking } from '../utils/cardEffects';
+import { useCardMouseTracking } from '../utils/utils';
 import '../styles/Card.css';
 
 const Card = () => {
