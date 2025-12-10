@@ -119,6 +119,99 @@
   clip-path: inset(10% 8.5% 50% 8.5%);
 }
 
+/* Pack opening animation container */
+.pack-opening-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pack-interaction-area {
+  position: relative;
+  width: 460px; /* 300px pack + 80px padding on each side */
+  height: 420px; /* 420px pack + 40px padding top/bottom */
+  cursor: crosshair;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pack-graphic {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pack-half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 3px solid #333;
+  transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.6s ease;
+}
+
+.pack-top {
+  top: 0;
+  height: 21px; /* 5% of 420px */
+  border-radius: 12px 12px 0 0;
+  border-bottom: 1.5px solid #333;
+}
+
+.pack-bottom {
+  top: 21px; /* starts right after the top 5% */
+  height: 399px; /* 95% of 420px */
+  border-radius: 0 0 12px 12px;
+  border-top: 1.5px solid #333;
+}
+
+.cut-line {
+  position: absolute;
+  top: 21px; /* 5% mark where cut happens */
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #ffeb3b 50%, transparent 100%);
+  box-shadow: 0 0 10px #ffeb3b;
+  transition: width 0.1s linear;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.pack-instruction {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Pack opening animation */
+.pack-graphic.opening .pack-top {
+  transform: translateY(-80px) rotate(-8deg);
+  opacity: 0;
+}
+
+.pack-graphic.opening .pack-bottom {
+  transform: translateY(60px) rotate(3deg);
+  opacity: 0;
+}
+
+.pack-graphic.opening .cut-line {
+  opacity: 0;
+}
+
 /* Pack opening animation and stacked layout */
 .pack-results {
   /* pull the stack up slightly but avoid covering the button */
@@ -126,6 +219,14 @@
   position: relative;
   width: 340px;
   height: 440px;
+}
+
+/* Hide cards during pack opening animation but keep them in DOM for effects to initialize */
+.pack-results.hidden {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  left: -9999px;
 }
 
 /* Clip sliding cards so off-screen transforms don't create page scrollbars */
@@ -159,8 +260,6 @@
   /* disable pointer events on all by default; only the top (clickable) will enable them */
   pointer-events: none;
 }
-
-.pack-card-result.stacked { }
 
 .pack-card-result.clickable { cursor: pointer; pointer-events: auto; z-index: calc(var(--total) + 100); }
 /* ensure the 3d container doesn't clip the scaled image */

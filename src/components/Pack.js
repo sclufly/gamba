@@ -22,6 +22,13 @@ const Pack = () => {
     const cardRefs = useRef([]);
     const { handleMouseMove } = useCardMouseTracking();
 
+    // Pack opening animation states
+    const [showPack, setShowPack] = useState(false);
+    const [cutProgress, setCutProgress] = useState(0);
+    const [packOpening, setPackOpening] = useState(false);
+    const [mousePressed, setMousePressed] = useState(false);
+    const packRef = useRef(null);
+
     // Mouse tracking for holographic effect
     useEffect(() => {
         cardRefs.current.forEach((cardElement) => {
@@ -186,14 +193,49 @@ const Pack = () => {
         setCardObjects(selectedCards);
         setImageUrl(urls);
 
-        // reset animation state and then trigger entry animation
+        // reset animation state
         setRemovedCount(0);
         setFinalReveal(false);
-        // reset opened so the CSS animation can retrigger
         setOpened(false);
-        // small timeout to ensure class changes are applied in order
-        setTimeout(() => setOpened(true), 30);
+        
+        // Show pack opening animation first
+        setShowPack(true);
+        setCutProgress(0);
+        setPackOpening(false);
     }
+
+    // Handle mouse movement across the pack for cutting animation
+    const handlePackMouseMove = (e) => {
+        if (!packRef.current || packOpening || !mousePressed) return;
+        
+        const wrapperRect = packRef.current.getBoundingClientRect();
+        const packWidth = 300; // actual pack width
+        const packLeft = wrapperRect.left + (wrapperRect.width - packWidth) / 2;
+        const x = e.clientX - packLeft;
+        const progress = Math.max(0, Math.min(1, x / packWidth));
+        setCutProgress(progress);
+        
+        // When user reaches the full horizontal distance, trigger pack opening
+        if (progress >= 0.99) {
+            setPackOpening(true);
+            setMousePressed(false);
+            // After pack splits and fades, show the cards
+            setTimeout(() => {
+                setShowPack(false);
+                setOpened(true);
+            }, 800);
+        }
+    };
+
+    const handlePackMouseDown = () => {
+        if (!packOpening) {
+            setMousePressed(true);
+        }
+    };
+
+    const handlePackMouseUp = () => {
+        setMousePressed(false);
+    };
 
     const handleCardClick = (index) => {
         if (!cardObjects) return;
@@ -223,8 +265,32 @@ const Pack = () => {
                 />
             </div>
             <button className="card-button" onClick={handleClick}>🍀</button>
+            {showPack && (
+                <div className="pack-opening-container">
+                    <div 
+                        ref={packRef}
+                        className="pack-interaction-area"
+                        onMouseMove={handlePackMouseMove}
+                        onMouseDown={handlePackMouseDown}
+                        onMouseUp={handlePackMouseUp}
+                        onMouseLeave={handlePackMouseUp}
+                    >
+                        <div 
+                            className={`pack-graphic ${packOpening ? 'opening' : ''}`}
+                            style={{ '--cut-progress': cutProgress }}
+                        >
+                            <div className="pack-half pack-top"></div>
+                            <div className="pack-half pack-bottom"></div>
+                            <div className="cut-line" style={{ width: `${cutProgress * 100}%` }}></div>
+                            {cutProgress < 0.99 && (
+                                <div className="pack-instruction">Hold and drag right →</div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
             {imageUrl && (
-                <div className={`pack-results ${opened ? 'pack-opened' : ''} ${finalReveal ? 'pack-final' : ''}`}>
+                <div className={`pack-results ${showPack ? 'hidden' : ''} ${opened ? 'pack-opened' : ''} ${finalReveal ? 'pack-final' : ''}`}>
                     <div className={`pack-clip ${finalReveal ? 'no-clip' : ''}`}>
                     {imageUrl.map((url, index) => {
                         const card = cardObjects[index];

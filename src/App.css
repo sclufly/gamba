@@ -354,6 +354,10 @@ h1 {
   background: #ffd700;
 }
 
+.card-button:disabled {
+  background: #3e3e3e;
+}
+
 /* App header */
 .App-header {
   position: relative;
