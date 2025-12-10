@@ -52,11 +52,34 @@ export const saveCardToCollection = (card, setId) => {
     return setCollection[card.id];
 };
 
-// Card generation utility
-export const generateCards = (cardsByRarity, setId, rarities, baseRarities, packSize, rarityMultiplier) => {
-    const setRarities = rarities[setId];
+// Helper function for god pack generation
+const getGodPack = (cardsByRarity, setRarities, baseRarities) => {
     const selectedCards = [];
+    
+    // Get rarities that are not base rarities
+    const rareCardRarities = Object.keys(setRarities).filter(
+        r => !baseRarities.includes(r) && cardsByRarity[r]?.length > 0
+    );
+    
+    for (let i = 0; i < 5; i++) {
+        // Pick a random rarity from the rare card pool
+        const selectedRarity = rareCardRarities[Math.floor(Math.random() * rareCardRarities.length)];
+        
+        // Pick a random card from that rarity
+        const cardsInRarity = cardsByRarity[selectedRarity] || [];
+        const randomCard = cardsInRarity[Math.floor(Math.random() * cardsInRarity.length)];
+        selectedCards.push(randomCard);
+        
+        console.log('GOD PACK', selectedRarity);
+    }
+    
+    return selectedCards;
+};
 
+// Helper function for normal pack generation
+const getNormalPack = (cardsByRarity, setRarities, baseRarities, packSize, rarityMultiplier) => {
+    const selectedCards = [];
+    
     for (let i = 0; i < packSize; i++) {
         let selectedRarity = null;
         const roll = Math.random() * 100; // 0-100
@@ -90,12 +113,27 @@ export const generateCards = (cardsByRarity, setId, rarities, baseRarities, pack
 
         console.log(roll, selectedRarity);
     }
+    
+    return selectedCards;
+};
+
+// Card generation utility
+export const generateCards = (cardsByRarity, setId, rarities, baseRarities, packSize, rarityMultiplier) => {
+    const setRarities = rarities[setId];
+    
+    // determine if this is a "god pack" (1% chance)
+    const isGodPack = Math.random() < 0.01;
+
+    const selectedCards = isGodPack
+        ? getGodPack(cardsByRarity, setRarities, baseRarities)
+        : getNormalPack(cardsByRarity, setRarities, baseRarities, packSize, rarityMultiplier);
 
     // sort cards by rarity (common first, rarest last), then by supertype (Energy first)
     const rarityOrder = Object.keys(setRarities).reverse();
     const rarityRank = Object.fromEntries(
         rarityOrder.map((r, i) => [r, i])
     );
+
     selectedCards.sort((a, b) =>
         rarityRank[a.rarity] - rarityRank[b.rarity] ||
         ((a.supertype === "Energy") ? 0 : 1) -

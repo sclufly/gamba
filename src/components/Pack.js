@@ -261,7 +261,6 @@ const Pack = () => {
 
 // TODO:
 // i should add nice animations for viewing collected cards
-// i should add a chance of pulling a god pack
 // i should add a limit on the number of packs you can open per day
 // i should add price data for special cards
 
