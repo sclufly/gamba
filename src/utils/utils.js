@@ -1,3 +1,5 @@
+import { BASE_RARITIES } from './constants';
+
 // Mouse tracking utility for holographic card effects
 export const useCardMouseTracking = (cardRef, imageUrl) => {
     const handleMouseMove = (e, cardElement) => {
@@ -22,6 +24,20 @@ export const useCardMouseTracking = (cardRef, imageUrl) => {
     };
 
     return { handleMouseMove };
+};
+
+// Determine the glare class for a card based on its rarity
+export const getCardGlareClass = (cardRarity) => {
+    const isCommonRarity = BASE_RARITIES.includes(cardRarity);
+    const isRareHolo = cardRarity.includes('Rare Holo');
+    
+    if (isCommonRarity) {
+        return 'card-glare';
+    } else if (isRareHolo) {
+        return 'card-glare card-holo card-holo-clipped';
+    } else {
+        return 'card-glare card-holo';
+    }
 };
 
 // Collection management utilities

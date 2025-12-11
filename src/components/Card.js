@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import sets from '../data/sets';
 import Dropdown from './Dropdown';
 import { useCardMouseTracking } from '../utils/utils';
+import { ALLOWED_SET_IDS } from '../utils/constants';
 import '../styles/Card.css';
 
 const Card = () => {
@@ -30,7 +31,7 @@ const Card = () => {
         };
     }, [imageUrl]);
 
-    const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
+    const allowedSetIds = ALLOWED_SET_IDS;
     const filteredSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
     const dropdownSets = [{ id: 'random', name: 'Random' }, ...filteredSets];
 

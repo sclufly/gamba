@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import sets from '../data/sets';
 import Dropdown from './Dropdown';
+import { useCardMouseTracking, getCardGlareClass } from '../utils/utils';
+import { ALLOWED_SET_IDS, BASE_RARITIES } from '../utils/constants';
 import '../styles/Collection.css';
 
 const Collection = () => {
     const [selectedSetId, setSelectedSetId] = useState('dp1');
     const [collectedCards, setCollectedCards] = useState([]);
+    const [enlargedCard, setEnlargedCard] = useState(null);
+    const cardRef = useRef(null);
+    const { handleMouseMove } = useCardMouseTracking();
 
-    const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
+    const allowedSetIds = ALLOWED_SET_IDS;
     const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
+    const baseRarities = BASE_RARITIES;
 
     // helper function to get collection for a specific set from local storage
     const getSetCollection = (setId) => {
@@ -26,6 +32,29 @@ const Collection = () => {
         });
         setCollectedCards(cardsArray);
     }, [selectedSetId]);
+
+    // Mouse tracking for holographic effect on enlarged card
+    useEffect(() => {
+        const mouseMoveHandler = (e) => handleMouseMove(e, cardRef.current);
+
+        if (cardRef.current && enlargedCard) {
+            cardRef.current.addEventListener('mousemove', mouseMoveHandler);
+        }
+
+        return () => {
+            if (cardRef.current) {
+                cardRef.current.removeEventListener('mousemove', mouseMoveHandler);
+            }
+        };
+    }, [enlargedCard]);
+
+    const handleCardClick = (card) => {
+        setEnlargedCard(card);
+    };
+
+    const closeEnlargedView = () => {
+        setEnlargedCard(null);
+    };
 
     const totalCards = collectedCards.length;
     const totalPulls = collectedCards.reduce((sum, card) => sum + card.count, 0);
@@ -53,18 +82,16 @@ const Collection = () => {
                                     src={card.images.small} 
                                     alt={card.name} 
                                     className="collection-card-image"
+                                    onClick={() => handleCardClick(card)}
                                 />
                                 <p className="collection-card-name">
                                     {card.name}
                                 </p>
                                 <p className="collection-card-rarity">
-                                    {card.rarity}
-                                </p>
-                                <p className="collection-card-number">
-                                    #{card.number}
+                                    {card.rarity} • #{card.number}
                                 </p>
                                 <p className="collection-card-count">
-                                    Pulled: {card.count}x
+                                    Pulled {card.count}x
                                 </p>
                             </div>
                         ))}
@@ -72,6 +99,38 @@ const Collection = () => {
                 </div>
             ) : (
                 <p className="collection-empty">No cards collected from this set yet.</p>
+            )}
+
+            {enlargedCard && (
+                <div className="collection-modal-overlay" onClick={closeEnlargedView}>
+                    <div className="collection-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="collection-modal-close" onClick={closeEnlargedView}>×</button>
+                        <div className="collection-enlarged-card">
+                            <div className="card-3d-container" ref={cardRef}>
+                                {[...Array(100)].map((_, i) => (
+                                    <div key={i + 1} className={`card-grid-cell card-grid-cell-${i + 1}`}></div>
+                                ))}
+                                <div className="card-3d-rotator">
+                                    <img 
+                                        src={enlargedCard.images.large} 
+                                        alt={enlargedCard.name} 
+                                        className="card-3d-image"
+                                    />
+                                    <div className={getCardGlareClass(enlargedCard.rarity)}></div>
+                                </div>
+                            </div>
+                            <div className="collection-modal-info">
+                                <p className="collection-modal-name">{enlargedCard.name}</p>
+                                <p className="collection-modal-details">
+                                    {enlargedCard.rarity} • #{enlargedCard.number}
+                                </p>
+                                <p className="collection-modal-pulls">
+                                    Pulled {enlargedCard.count}x
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

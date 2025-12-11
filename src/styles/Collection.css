@@ -40,6 +40,13 @@
   width: 100%;
   height: auto;
   border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.collection-card-image:hover {
+  transform: translateY(3px) scale(1.02);
 }
 
 .collection-card-name {
@@ -71,4 +78,111 @@
 .collection-empty {
   color: #666;
   margin-top: 20px;
+}
+
+/* Modal overlay for enlarged card */
+.collection-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+/* Modal content container */
+.collection-modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 90vw;
+  max-height: 90vh;
+  padding: 40px;
+}
+
+/* Close button */
+.collection-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.collection-modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Enlarged card container */
+.collection-enlarged-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.collection-enlarged-card .card-3d-container {
+  width: 350px;
+}
+
+.collection-enlarged-card .card-3d-image {
+  width: 350px;
+  height: auto;
+  display: block;
+  border-radius: 4.55% / 3.5%;
+}
+
+/* Modal info section */
+.collection-modal-info {
+  text-align: center;
+  color: white;
+}
+
+.collection-modal-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.collection-modal-details {
+  font-size: 16px;
+  color: #ccc;
+  margin: 0 0 8px 0;
+}
+
+.collection-modal-pulls {
+  font-size: 18px;
+  color: #ffd700;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .collection-enlarged-card .card-3d-container {
+    width: 280px;
+  }
+  
+  .collection-enlarged-card .card-3d-image {
+    width: 280px;
+  }
 }

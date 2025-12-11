@@ -7,7 +7,8 @@ import sv8pt5 from '../data/sv8pt5';
 import sv10 from '../data/sv10';
 import rarities from '../data/rarities';
 import Dropdown from './Dropdown';
-import { useCardMouseTracking, saveCardToCollection, generateCards } from '../utils/utils';
+import { useCardMouseTracking, saveCardToCollection, generateCards, getCardGlareClass } from '../utils/utils';
+import { ALLOWED_SET_IDS, BASE_RARITIES, PACK_SIZE, RARITY_MULTIPLIER } from '../utils/constants';
 import '../styles/Pack.css';
 
 const Pack = () => {
@@ -50,15 +51,15 @@ const Pack = () => {
         };
     }, [imageUrl]);
 
-    const allowedSetIds = ['sv8pt5', 'sv10', 'sv8', 'me1', 'dp1'];
+    const allowedSetIds = ALLOWED_SET_IDS;
     const dropdownSets = (sets.data || []).filter(s => allowedSetIds.includes(s.id));
-    const baseRarities = ['Common', 'Uncommon', 'Rare'];
+    const baseRarities = BASE_RARITIES;
 
-    const packSize = 5;
+    const packSize = PACK_SIZE;
 
     // this represents the number of cards in a normal pack
     // the real number is 10, but this can be reduced to increase hit rates
-    const rarityMultiplier = 1.2;
+    const rarityMultiplier = RARITY_MULTIPLIER;
 
     const handleClick = async () => {
         
@@ -215,13 +216,7 @@ const Pack = () => {
                     <div className={`pack-clip ${finalReveal ? 'no-clip' : ''}`}>
                     {imageUrl.map((url, index) => {
                         const card = cardObjects[index];
-                        const isCommonRarity = baseRarities.includes(card.rarity);
-                        const isRareHolo = card.rarity.includes('Rare Holo');
-                        const cardGlare = isCommonRarity 
-                            ? 'card-glare' 
-                            : isRareHolo 
-                                ? 'card-glare card-holo card-holo-clipped' 
-                                : 'card-glare card-holo';
+                        const cardGlare = getCardGlareClass(card.rarity);
                         const total = imageUrl.length;
                         // Now we treat index 0 as the top-most card. removedCount counts how many top cards have been removed.
                         // When finalReveal is active, show all cards again (don't mark them removed)
@@ -260,7 +255,6 @@ const Pack = () => {
 };
 
 // TODO:
-// i should add nice animations for viewing collected cards
 // i should add a limit on the number of packs you can open per day
 // i should add price data for special cards
 
